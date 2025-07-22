@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <string.h>
 
 #ifdef LINUX
   #include <unistd.h>
@@ -51,13 +50,16 @@ typedef struct STRUCT_STOCKFISH {
   char szBuffer[2048];
   char szMoveTime[16];
   char szBestMove[32];
+  int bStockfishOn;
 } STRUCT_STOCKFISH, *PSTRUCT_STOCKFISH;
 
 extern STRUCT_STOCKFISH gstStockfish;
 
+#ifdef LINUX
 extern pid_t pidStockfish;
 extern int fdToStockfish[2];
 extern int fdFromStockfish[2];
+#endif
 
 /**
  * @brief ...
