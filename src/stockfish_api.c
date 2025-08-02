@@ -13,7 +13,7 @@
 STRUCT_MOVE_LIST *gpstMoveList = NULL;
 STRUCT_STOCKFISH gstStockfish;
 
-#ifdef LINUX
+#ifndef _WIN32
 pid_t pidStockfish = -1;
 int fdToStockfish[2];
 int fdFromStockfish[2];
@@ -129,7 +129,7 @@ int bSTOCKFISH_Init(const char *kpszStockfishPath, const char *kpszMoveTime) {
   else
     snprintf(gstStockfish.szMoveTime, sizeof(gstStockfish.szMoveTime), "%s", kpszMoveTime);
 
-#ifdef LINUX
+#ifndef _WIN32
   if ( pipe(fdToStockfish) < 0 ) {
     if ( DEBUG_MSGS ) vTraceMsg("pipe to stockfish failed: [%s]", strerror(errno));
     return FALSE;
@@ -193,7 +193,7 @@ void vSTOCKFISH_End(void) {
     fclose(fpRead);
     fpRead = NULL;
   }
-#ifdef LINUX
+#ifndef _WIN32
   if ( pidStockfish > 0 ) {
     int iStatus = 0;
     waitpid(pidStockfish, &iStatus, 0);
